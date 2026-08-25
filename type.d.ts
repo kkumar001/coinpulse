@@ -36,7 +36,7 @@ interface Ticker {
   trade_url: string;
 }
 
-type Period = 'daily' | 'weekly' | 'monthly' | '3months' | '6months' | 'yearly';
+type Period = 'daily' | 'weekly' | 'monthly' | '3months' | '6months' | 'yearly' | 'max';
 
 interface CoinMarketData {
   id: string;
@@ -181,8 +181,8 @@ interface CoinDetailsData {
   detail_platforms?: Record<
     string,
     {
-      geckoterminal_url: string;
-      contract_address: string;
+      geckoterminal_url?: string;
+      contract_address?: string;
     }
   >;
   image: {
@@ -315,4 +315,19 @@ interface PoolData {
   address: string;
   name: string;
   network: string;
+}
+
+interface OnchainPoolResource {
+  id: string;
+  attributes?: {
+    address?: string;
+    name?: string;
+  };
+  relationships?: {
+    network?: {
+      data?: {
+        id?: string;
+      };
+    };
+  };
 }

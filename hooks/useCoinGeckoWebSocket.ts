@@ -125,6 +125,12 @@ export const useCoinGeckoWebSocket = ({
         ws.onclose = () => {
             if (wsRef.current === ws) setIsWsReady(false);
         };
+
+        ws.onerror = (error) => {
+            console.error("WebSocket error:", error);
+            setIsWsReady(false);
+        };
+
         return () => {
             if (wsRef.current === ws) {
                 wsRef.current = null;

@@ -70,11 +70,15 @@ export async function getPools(
   const fallback = mapOnchainPool();
 
   if (network && contractAddress) {
-    const poolData = await fetcher<{ data: OnchainPoolResource[] }>(
-      `/onchain/networks/${network}/tokens/${contractAddress}/pools`
-    );
+    try {
+      const poolData = await fetcher<{ data: OnchainPoolResource[] }>(
+        `/onchain/networks/${network}/tokens/${contractAddress}/pools`
+      );
 
-    return mapOnchainPool(poolData.data?.[0]) ?? fallback;
+      return mapOnchainPool(poolData.data?.[0]) ?? fallback;
+    } catch {
+      return fallback;
+    }
   }
 
   try {

@@ -43,9 +43,8 @@ const CoinHeader = ({
         <div id="coin-header">
             <h3>{name}</h3>
 
-            <div id='info'>
+            <div className='info'>
                 <Image src={image} alt={name} width={77} height={77} />
-
                 <div className='price-row'>
                     <h1>{formatCurrency(livePrice)}</h1>
                     <Badge className={cn('badge', isTrendingUp ? 'badge-up' : 'badge-down')}>
@@ -54,26 +53,26 @@ const CoinHeader = ({
                         &#040;24h&#041;
                     </Badge>
                 </div>
-
-                <ul className='stats'>
-                    {stats.map((stat) => (
-                        <li key={stat.label}>
-                            <p className='label'>{stat.label}</p>
-
-                            <div
-                                className={cn('value', {
-                                    'text-green-500': stat.isUp,
-                                    'text-red-500': !stat.isUp
-                                })}
-                            >
-                                <p>{stat.formatter(stat.value)}</p>
-                                {stat.showIcon && (stat.isUp ? <TrendingUp className='size-4' /> : <TrendingDown className='size-4' />)}
-                            </div>
-
-                        </li>
-                    ))}
-                </ul>
             </div>
+
+            <ul className='stats'>
+                {stats.map((stat) => (
+                    <li key={stat.label}>
+                        <p className='label'>{stat.label}</p>
+
+                        <div
+                            className={cn('value', {
+                                'text-green-500': stat.isUp,
+                                'text-red-500': !stat.isUp
+                            })}
+                        >
+                            <p>{stat.formatter(stat.value)}</p>
+                            {stat.showIcon && (stat.isUp ? <TrendingUp className='size-4' /> : <TrendingDown className='size-4' />)}
+                        </div>
+
+                    </li>
+                ))}
+            </ul>
         </div>
     )
 }

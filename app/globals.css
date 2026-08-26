@@ -767,7 +767,39 @@
     }
 
     .tabs-content {
-      @apply gap-4! mt-2! md:gap-5! sm:grid-cols-2! lg:grid-cols-1! grid!;
+      @apply mt-4! grid! grid-cols-1! gap-3!;
+    }
+
+    .tabs-content-item {
+      @apply flex flex-row! items-center! justify-between! gap-3! rounded-xl! bg-dark-400! px-4! py-3.5!;
+
+      .coin {
+        @apply flex min-w-0 items-center gap-3;
+
+        img {
+          @apply size-10 shrink-0 rounded-full;
+        }
+
+        .name {
+          @apply truncate max-w-35! md:max-w-60! font-semibold;
+        }
+
+        .symbol {
+          @apply text-sm text-purple-100 uppercase;
+        }
+      }
+
+      .metrics {
+        @apply flex shrink-0 flex-col items-end gap-0.5;
+
+        .price {
+          @apply font-semibold;
+        }
+
+        .change {
+          @apply flex items-center gap-0.5 text-sm font-medium;
+        }
+      }
     }
   }
 

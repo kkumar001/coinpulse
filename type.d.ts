@@ -119,7 +119,7 @@ interface TopGainersLosers {
   priceChangePercentage24h: number;
 }
 
-interface TopGainersLosersResponse {
+interface TopGainersLosersProps {
   id: string;
   name: string;
   symbol: string;
@@ -128,6 +128,26 @@ interface TopGainersLosersResponse {
   usd_24h_change: number;
   usd_24h_vol: number;
   market_cap_rank: number;
+}
+
+interface TopGainersLosersResponse {
+  top_gainers: TopGainersLosersProps[];
+  top_losers: TopGainersLosersProps[];
+}
+
+interface ExchangeList {
+  base: string;
+  target: string;
+  market: {
+    name: string;
+    identifier: string;
+    has_trading_incentive: boolean;
+    logo: string;
+  },
+  last_traded_at: string;
+  converted_last: {
+    usd: number;
+  }
 }
 
 interface PriceData {

@@ -92,3 +92,61 @@ export async function getPools(
     return fallback;
   }
 }
+
+interface CoinSearchHit {
+  id: string;
+  name: string;
+  symbol: string;
+  market_cap_rank: number | null;
+  thumb: string;
+  large: string;
+}
+
+export async function searchCoins(query: string): Promise<SearchCoin[]> {
+  const trimmed = query.trim();
+  if (!trimmed) return [];
+
+  try {
+    const searchData = await fetcher<{ coins: CoinSearchHit[] }>(
+      '/search',
+      { query: trimmed },
+      30,
+    );
+
+    const matches = searchData.coins?.slice(0, 10) ?? [];
+    if (matches.length === 0) return [];
+
+    const markets = await fetcher<CoinMarketData[]>(
+      '/coins/markets',
+      {
+        vs_currency: 'usd',
+        ids: matches.map((coin) => coin.id).join(','),
+        per_page: matches.length,
+        sparkline: false,
+        price_change_percentage: '24h',
+      },
+      30,
+    );
+
+    const marketById = new Map(markets.map((market) => [market.id, market]));
+
+    return matches.map((coin) => {
+      const market = marketById.get(coin.id);
+
+      return {
+        id: coin.id,
+        name: coin.name,
+        symbol: coin.symbol,
+        market_cap_rank: coin.market_cap_rank,
+        thumb: coin.thumb || coin.large,
+        large: coin.large || coin.thumb,
+        data: {
+          price: market?.current_price,
+          price_change_percentage_24h: market?.price_change_percentage_24h ?? 0,
+        },
+      };
+    });
+  } catch {
+    return [];
+  }
+}

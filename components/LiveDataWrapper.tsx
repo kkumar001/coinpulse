@@ -7,9 +7,9 @@ import { formatCurrency, timeAgo } from '@/lib/utils';
 import DataTable from './DataTable';
 import { useState } from 'react';
 import CoinHeader from './CoinHeader';
+import ExchangeListings from './ExchangeListings';
 
 const LiveDataWrapper = ({
-    children,
     coinId,
     poolId,
     coin,
@@ -18,7 +18,7 @@ const LiveDataWrapper = ({
     const [liveInterval, setLiveInterval] = useState<'1s' | '1m'>('1s');
 
     const { trades, ohlcv, price } = useCoinGeckoWebSocket({ coinId, poolId, liveInterval });
-
+    
     const tradeColumns: DataTableColumn<Trade>[] = [
         {
             header: 'Price',
@@ -91,6 +91,10 @@ const LiveDataWrapper = ({
                     />
                 </div>
             )}
+
+            <ExchangeListings
+                items={coin.tickers.slice(0, 10)}
+            />
         </section>
     )
 }

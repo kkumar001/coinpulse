@@ -1,5 +1,7 @@
 import Converter from "@/components/Converter";
+import ExchangeListings from "@/components/ExchangeListings";
 import LiveDataWrapper from "@/components/LiveDataWrapper";
+import TopGainersLosers from "@/components/TopGainersLosers";
 import { fetcher, getPools } from "@/lib/coingecko.actions";
 import { formatCurrency } from "@/lib/utils";
 import { ArrowUpRight } from "lucide-react";
@@ -19,6 +21,11 @@ const Page = async ({ params }: NextPageProps) => {
             precision: 'full'
         })
     ]);
+
+    const topGainersLosersData = await fetcher<TopGainersLosersResponse>(
+        `/coins/top_gainers_losers`, {
+        vs_currency: 'usd',
+    });
 
     const platform = coinData.asset_platform_id ?
         coinData.detail_platforms?.[coinData.asset_platform_id] : null;
@@ -73,27 +80,14 @@ const Page = async ({ params }: NextPageProps) => {
                     }
                     coin={coinData}
                     coinOHLCData={coinOHLCData}
-                >
-                    <h4>Exchange Listings</h4>
-                </LiveDataWrapper>
+                />
             </section>
-            {/* <section className="primary">
-                <h1 className="text-3xl font-bold">
-                    Coin <strong>{id}</strong>
-                </h1>
-
-                <p>Trend Overview</p>
-
-                <p>Recent Trades</p>
-
-                <p>Exchange Listing</p>
-            </section> */}
 
             <section className="secondary">
                 <Converter
-                  symbol={coinData.symbol}
-                  icon={coinData.image.small}
-                  priceList={coinData.market_data.current_price}
+                    symbol={coinData.symbol}
+                    icon={coinData.image.small}
+                    priceList={coinData.market_data.current_price}
                 />
 
                 <div className="details">
@@ -120,8 +114,11 @@ const Page = async ({ params }: NextPageProps) => {
                     </ul>
                 </div>
 
-                <p>Top Gainers and Losers</p>
+                <TopGainersLosers
+                    data={topGainersLosersData}
+                />
             </section>
+
         </main>
     )
 }

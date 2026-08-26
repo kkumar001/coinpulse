@@ -143,25 +143,26 @@ const CandleStickChart = ({
                             {label}
                         </button>
                     ))}
-
-                    {liveInterval && (
-                        <div className="button-group">
-                            <span className="text-sm mx-2 font-medium text-purple-100/50">
-                                Update Frequency:
-                            </span>
-                            {LIVE_INTERVAL_BUTTONS.map(({ label, value }) => (
-                                <button
-                                    key={value}
-                                    className={liveInterval === value ? "config-button-active" : 'config-button'}
-                                    onClick={() => setLiveInterval?.(value)}
-                                    disabled={isPending}
-                                >
-                                    {label}
-                                </button>
-                            ))}
-                        </div>
-                    )}
                 </div>
+
+
+                {liveInterval && (
+                    <div className="button-group">
+                        <span className="text-sm mx-2 font-medium text-purple-100/50">
+                            Update Frequency:
+                        </span>
+                        {LIVE_INTERVAL_BUTTONS.map(({ label, value }) => (
+                            <button
+                                key={value}
+                                className={liveInterval === value ? "config-button-active" : 'config-button'}
+                                onClick={() => setLiveInterval?.(value)}
+                                disabled={isPending}
+                            >
+                                {label}
+                            </button>
+                        ))}
+                    </div>
+                )}
             </div>
             <div ref={chartContainerRef} className="chart" style={{ height }} />
         </div>
